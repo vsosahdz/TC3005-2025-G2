@@ -2,7 +2,7 @@ import express,{Request, Response} from 'express';
 //Importar controlador abstracto
 import AbstractController from '../controllers/AbstractController';
 
-class Server{
+export default class Server{
     //Atributos de instancia
 
     private app: express.Application;
@@ -25,9 +25,17 @@ class Server{
         });
     }
     private initControllers(controllers:AbstractController[]){
+        this.app.get('/', (req:Request, res:Response) => {
+            res.send('Server is runnning 🚀');
+        });
         //Recorrer controladores
         controllers.forEach(controller => {
             this.app.use(`/${controller.prefix}`, controller.router);
+        });
+    }
+    public init():void{
+        this.app.listen(this.port, () => {
+            console.log(`Server running on http://localhost:${this.port} in ${this.env} mode`);
         });
     }
 }
