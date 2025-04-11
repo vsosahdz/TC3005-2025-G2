@@ -1,6 +1,7 @@
 import express,{Request, Response} from 'express';
 //Importar controlador abstracto
 import AbstractController from '../controllers/AbstractController';
+import db from '../models';
 
 export default class Server{
     //Atributos de instancia
@@ -16,6 +17,7 @@ export default class Server{
         this.env = appInit.env;
         this.initMiddlewares(appInit.middlewares);
         this.initControllers(appInit.controllers);
+        this.connectDB();
     }
 
     private initMiddlewares(middlewares:any[]){
@@ -33,6 +35,16 @@ export default class Server{
             this.app.use(`/${controller.prefix}`, controller.router);
         });
     }
+
+    private async connectDB(){
+        try{
+            await db.sequelize.sync({force:false});
+            console.log('Database connected successfully');
+        }catch(error){
+            console.error('Error connecting to the database:', error);
+        }
+    }
+
     public init():void{
         this.app.listen(this.port, () => {
             console.log(`Server running on http://localhost:${this.port} in ${this.env} mode`);
