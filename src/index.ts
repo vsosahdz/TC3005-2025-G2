@@ -6,6 +6,7 @@ import { PORT,NODE_ENV } from "./config";
 //Importar controladores
 import EstudioController from "./controllers/EstudioController";
 import ProjectController from "./controllers/ProjectController";
+import UserController from "./controllers/UserController";
 
 const server = new Server({
     env: NODE_ENV,
@@ -15,7 +16,10 @@ const server = new Server({
         express.urlencoded({ extended: true }),
         cors()
     ],
-    controllers:[EstudioController.instance,ProjectController.instance]
+    controllers:[
+        EstudioController.instance,
+        ProjectController.instance,
+        UserController.instance]
 });
 
 server.init();
