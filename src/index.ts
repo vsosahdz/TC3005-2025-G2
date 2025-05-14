@@ -18,8 +18,8 @@ const server = new Server({
     ],
     controllers:[
         EstudioController.instance,
-        ProjectController.instance,
-        UserController.instance]
+        ProjectController.instance]
+        //UserController.instance]
 });
 
 server.init();
